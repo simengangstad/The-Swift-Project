@@ -69,11 +69,26 @@ class ViewController: UIViewController {
         displayValue = brain.result
     }
     
+    var savedProgram: CalculatorBrain.PropertyList?
+    
+    @IBAction func save() {
+        savedProgram = brain.program
+    }
+    
+    @IBAction func restore() {
+        if (savedProgram != nil) {
+            brain.program = savedProgram!
+            displayValue = brain.result
+            descriptionLabel.text = brain.description + (brain.isPartialResult ? "..." : "=")
+        }
+    }
+    
+    
     @IBAction func clear(_ sender: UIButton) {
         
         userIsInTheMiddleOfTyping = false
         brain.clearOperations()
-        brain.setOperand(operand: 0.0)
+        brain.clear()
         displayValue = brain.result
         descriptionLabel.text = "..."
     }

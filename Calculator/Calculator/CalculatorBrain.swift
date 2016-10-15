@@ -51,12 +51,14 @@ class CalculatorBrain {
     ]
     
     private var lastOperationWasAnUnaryOperation = false
-
     
     private var accumulator = 0.0
+    private var internalProgram = [AnyObject]()
     
     func setOperand(operand: Double) {
         accumulator = operand
+        
+        internalProgram.append(operand as AnyObject)
         
         if (lastOperationWasAnUnaryOperation) {
             operationStack.clear()
@@ -74,6 +76,8 @@ class CalculatorBrain {
     private var requestedEreaseOfOperationStack = false
     
     func performOperation(symbol: String) {
+        
+        internalProgram.append(symbol as AnyObject)
         
         if let operation = operations[symbol] {
             
@@ -177,6 +181,39 @@ class CalculatorBrain {
         }
     }
     
+    public struct PropertyList {
+        var program: [AnyObject]
+        var operations: [AnyObject]
+    }
+    
+     //typealias PropertyList = (program: [AnyObject], operations: [AnyObject])
+    
+    var program: PropertyList {
+        get {
+            
+            var ops = [AnyObject]()
+            
+            for item in operationStack.items {
+                ops.append(item as AnyObject)
+            }
+            
+            return PropertyList(program: internalProgram, operations: ops)
+        }
+        set {
+            clear()
+            clearOperations()
+            
+            for op in newValue.program {
+                if let operand = op as? Double { setOperand(operand: operand) }
+                else if let operation = op as? String { performOperation(symbol: operation) }
+            }
+            
+            for item in newValue.operations {
+                operationStack.push(item as! String)
+            }
+        }
+    }
+    
     // Only there if there's a pending binary operation such as add, multiply, etc., therefore optional
     private var pending: PendingBinaryOperationInfo?
     
@@ -189,6 +226,12 @@ class CalculatorBrain {
         get {
             return pending != nil
         }
+    }
+    
+    func clear() {
+        accumulator = 0.0
+        pending = nil
+        internalProgram.removeAll()
     }
     
     func clearOperations() {
