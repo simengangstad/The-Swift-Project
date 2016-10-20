@@ -26,6 +26,8 @@ struct Stack<Element> {
 
 class CalculatorBrain {
     
+    // Create arithmetic enum with autoclosures?
+    
     private enum Operation {
         case Constant(Double)
         case UnaryOperation((Double) -> Double)
@@ -53,21 +55,29 @@ class CalculatorBrain {
     private var lastOperationWasAnUnaryOperation = false
     
     private var accumulator = 0.0
+    private var variable: Character?
     private var internalProgram = [AnyObject]()
+    
+    var variableValues = [Character:Double]()
+    
+    private var usedVariableInOperation = false
+    
+    func setOperand(variable: Character) {
+        self.variable = variable
+        setOperand(operand: variableValues[variable] ?? 0.0)
+        internalProgram[internalProgram.count - 1] = variable as AnyObject
+        
+        usedVariableInOperation = true
+    }
     
     func setOperand(operand: Double) {
         accumulator = operand
         
+        if (pending != nil && pending!.secondOperand == nil) {
+            pending!.secondOperand = accumulator
+        }
+                
         internalProgram.append(operand as AnyObject)
-        
-        if (lastOperationWasAnUnaryOperation) {
-            operationStack.clear()
-            currentOperationChain = ""
-        }
-        
-        if (!isPartialResult) {
-            clearOperations()
-        }
     }
     
     private var operationStack = Stack<String>()
@@ -86,6 +96,10 @@ class CalculatorBrain {
                 accumulator = associatedConstantValue
             
             case .UnaryOperation(let unaryOperation):
+                
+                if (pending != nil && pending!.secondOperand == nil) {
+                    break
+                }
                 
                 // Passing !lastOperationWasAnUnaryOperation prevents the accumulator being
                 // pushed onto the stack if the last operation was an unary operation.
@@ -112,6 +126,10 @@ class CalculatorBrain {
                 
             case .BinaryOperation(let binaryOperation):
                 
+                if (pending != nil && pending!.secondOperand == nil) {
+                    break
+                }
+                
                 // If the last operation was power for example, this will make sure that an underscore is placed
                 // in the current operation chain to represent that. Kind of like a reference to the last operation
                 // in the stack:
@@ -120,7 +138,7 @@ class CalculatorBrain {
                 // _ + 3
                 // This will result in (3 ^ 2) + 3
                 
-                currentOperationChain += " " + (lastOperationWasAnUnaryOperation ? "_" : (String(accumulator)) + " \(symbol)")
+                currentOperationChain += (lastOperationWasAnUnaryOperation ? "_\(symbol)" : (usedVariableInOperation ? String(variable!) : String(accumulator)) + "\(symbol)")
                 
                 // Put parentheses around the current operation if multiplication, division or raising to the power
                 // 3 + 3 + 3 * 3 -> (3 + 3 + 3) * 3
@@ -129,26 +147,34 @@ class CalculatorBrain {
                 }
                 
                 executePendingBinaryOperation()
-                pending = PendingBinaryOperationInfo(binaryOperation: binaryOperation, firstOperand: accumulator)
+                pending = PendingBinaryOperationInfo(binaryOperation: binaryOperation, firstOperand: accumulator, secondOperand: nil)
                 lastOperationWasAnUnaryOperation = false
 
             case .Equals:
 
-                if (isPartialResult) { pushCurrentOperationChainToOperationStack(withAccumulator: true) }
-                executePendingBinaryOperation()
+                if (pending != nil && pending!.secondOperand == nil) {
+                    break
+                }
+                
+                if (isPartialResult) {
+                    pushCurrentOperationChainToOperationStack(withAccumulator: true)
+                    executePendingBinaryOperation()
+                }
             }
         }
+        
+        usedVariableInOperation = false
     }
     
     private func pushCurrentOperationChainToOperationStack(withAccumulator: Bool) {
-        currentOperationChain += withAccumulator ? " \(accumulator)" : "_"
+        currentOperationChain += withAccumulator ? (usedVariableInOperation ? String(variable!) : "\(accumulator)") : "_"
         operationStack.push(currentOperationChain)
         currentOperationChain = ""
     }
     
     private func resolveOperationStack() -> String {
         
-        if (operationStack.isEmpty()) {return currentOperationChain}
+        if (operationStack.isEmpty()) { return currentOperationChain }
         
         var stackCopy = operationStack;
         var completeOperation = stackCopy.pop()
@@ -175,8 +201,8 @@ class CalculatorBrain {
     }
     
     private func executePendingBinaryOperation() {
-        if (pending != nil) {
-            accumulator = pending!.binaryOperation(pending!.firstOperand, accumulator)
+        if (pending != nil && pending!.secondOperand != nil) {
+            accumulator = pending!.binaryOperation(pending!.firstOperand, pending!.secondOperand!)
             pending = nil
         }
     }
@@ -200,17 +226,23 @@ class CalculatorBrain {
             return PropertyList(program: internalProgram, operations: ops)
         }
         set {
-            clear()
-            clearOperations()
-            
-            for op in newValue.program {
-                if let operand = op as? Double { setOperand(operand: operand) }
-                else if let operation = op as? String { performOperation(symbol: operation) }
-            }
-            
-            for item in newValue.operations {
-                operationStack.push(item as! String)
-            }
+            rebuildFromPropertyList(propertyList: newValue)
+        }
+    }
+    
+    private func rebuildFromPropertyList(propertyList: PropertyList) {
+        
+        clear()
+        clearOperations()
+        
+        for op in propertyList.program {
+            if let operand = op as? Double { setOperand(operand: operand) }
+            else if let operation = op as? String { performOperation(symbol: operation) }
+            else if let variable = op as? Character { setOperand(variable: variable) }
+        }
+        
+        for item in propertyList.operations {
+            operationStack.push(item as! String)
         }
     }
     
@@ -220,6 +252,7 @@ class CalculatorBrain {
     private struct PendingBinaryOperationInfo {
         var binaryOperation: (Double, Double) -> Double
         var firstOperand: Double
+        var secondOperand: Double?
     }
     
     var isPartialResult: Bool {
@@ -248,6 +281,7 @@ class CalculatorBrain {
     
     var result: Double {
         get {
+            
             return accumulator
         }
     }

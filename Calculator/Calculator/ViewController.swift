@@ -14,31 +14,24 @@ class ViewController: UIViewController {
     @IBOutlet weak var descriptionLabel: UILabel!
     
     private var userIsInTheMiddleOfTyping = false
-    private var decimalPointInNumber = false
     
     @IBAction private func touchDigit(_ sender: UIButton) {
         
         let digit = sender.currentTitle!
         
-        if (digit == ".") {
-            if (!decimalPointInNumber) {
-                decimalPointInNumber = true
-            }
-            else {
-                return;
-            }
-        }
-
+        // If the number isn't an integer it includes a decimal point..
+        if (digit == "." && display.text!.range(of: ".") != nil && display.text! != "0.0") { return }
+        
         if (userIsInTheMiddleOfTyping) {
             let textCurrentlyInDisplay = display.text!
             display.text = textCurrentlyInDisplay + digit
         }
         else {
+            
             display.text = digit
-            if (!brain.isPartialResult) {descriptionLabel.text = "..."}
         }
         
-        userIsInTheMiddleOfTyping = true
+        userIsInTheMiddleOfTyping = true        
     }
     
     private var displayValue: Double {
@@ -52,18 +45,21 @@ class ViewController: UIViewController {
     
     private var brain = CalculatorBrain()
     
+    private func updateDescriptionLabel() {
+        descriptionLabel.text = brain.description + (brain.isPartialResult ? "..." : "=")
+    }
+    
     @IBAction private func performOperation(_ sender: UIButton) {
         
         if userIsInTheMiddleOfTyping {
             brain.setOperand(operand: displayValue)
             userIsInTheMiddleOfTyping = false
-            decimalPointInNumber = false
         }
         
         // If we can let mathematical symbol equal to sender's current title...
         if let mathematicalSymbol = sender.currentTitle {
             brain.performOperation(symbol: mathematicalSymbol)
-            descriptionLabel.text = brain.description + (brain.isPartialResult ? "..." : "=")
+            updateDescriptionLabel()
         }
         
         displayValue = brain.result
@@ -71,7 +67,7 @@ class ViewController: UIViewController {
     
     var savedProgram: CalculatorBrain.PropertyList?
     
-    @IBAction func save() {
+    @IBAction func store() {
         savedProgram = brain.program
     }
     
@@ -79,18 +75,33 @@ class ViewController: UIViewController {
         if (savedProgram != nil) {
             brain.program = savedProgram!
             displayValue = brain.result
-            descriptionLabel.text = brain.description + (brain.isPartialResult ? "..." : "=")
+            updateDescriptionLabel()
         }
     }
     
+    @IBAction func storeInVariable(_ sender: UIButton) {
+        if (!brain.isPartialResult) {
+            brain.setOperand(operand: displayValue)
+            userIsInTheMiddleOfTyping = false
+            brain.variableValues["M"] = brain.result
+        }
+    }
+    
+    @IBAction func retrieveFromVariable(_ sender: UIButton) {
+        brain.setOperand(variable: "M")
+        // Update in case the user hasn't previously done any other operations
+        if (!brain.isPartialResult) {
+            displayValue = brain.result
+        }
+    }
     
     @IBAction func clear(_ sender: UIButton) {
-        
         userIsInTheMiddleOfTyping = false
         brain.clearOperations()
         brain.clear()
         displayValue = brain.result
         descriptionLabel.text = "..."
+        brain.variableValues["M"] = 0.0
     }
 }
 
