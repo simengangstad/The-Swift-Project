@@ -26,14 +26,14 @@ struct Stack<Element> {
 
 class CalculatorBrain {
     
-    private enum Operation {
+    enum Operation {
         case Constant(Double)
         case UnaryOperation((Double) -> Double)
         case BinaryOperation((Double, Double) -> Double)
         case Equals
     }
     
-    private let operations = [
+    let operations = [
         "⨯" : Operation.BinaryOperation({$0 * $1}),
         "/" : Operation.BinaryOperation({$0 / $1}),
         "+" : Operation.BinaryOperation({$0 + $1}),
@@ -50,30 +50,24 @@ class CalculatorBrain {
         "√" : Operation.UnaryOperation(sqrt)
     ]
     
-    private var lastOperationWasAnUnaryOperation = false
-    
     private var accumulator = 0.0
     private var internalProgram = [AnyObject]()
-    
-    func setOperand(operand: Double) {
-        accumulator = operand
+    var variableValues = [String:Double]() {
         
-        internalProgram.append(operand as AnyObject)
-        
-        if (lastOperationWasAnUnaryOperation) {
-            operationStack.clear()
-            currentOperationChain = ""
-        }
-        
-        if (!isPartialResult) {
-            clearOperations()
+        didSet {
+            refresh(program: program)
         }
     }
     
-    private var operationStack = Stack<String>()
-    private var currentOperationChain = ""
-
-    private var requestedEreaseOfOperationStack = false
+    func setOperand(variableName: String) {
+        accumulator = variableValues[variableName] ?? 0.0
+        internalProgram.append(variableName as AnyObject)
+    }
+    
+    func setOperand(operand: Double) {
+        accumulator = operand
+        internalProgram.append(operand as AnyObject)
+    }
     
     func performOperation(symbol: String) {
         
@@ -87,91 +81,22 @@ class CalculatorBrain {
             
             case .UnaryOperation(let unaryOperation):
                 
-                // Passing !lastOperationWasAnUnaryOperation prevents the accumulator being
-                // pushed onto the stack if the last operation was an unary operation.
-                // Say a case where the user presses 4 * 4, sqrt, sqrt. If we pass the
-                // accumulator with the second sqrt the stack would look like this
-                // 4 * 4
-                // sqrt(_) (the underscore refers to the operation under the current operation in the stack, aka 4 * 4)
-                // sqrt(4)
-                // which makes it sqrt(4)(sqrt(4 * 4)) when the stack is resolved later
-                //
-                // This passes the current operation chain – without the unary operation – to the stack
-                pushCurrentOperationChainToOperationStack(withAccumulator: !lastOperationWasAnUnaryOperation)
-                
                 // Updates the accumulator with the correct value if a pending binary operation exists, so
                 // that the unary operation gets the proper value
                 // If this wasn't done something like
                 // 3 * 3 * 3, sqrt would result in sqrt of 3 * 3, not 3 * 3 * 3
                 executePendingBinaryOperation()
-                
-                operationStack.push(symbol)
                 accumulator = unaryOperation(accumulator)
                 
-                lastOperationWasAnUnaryOperation = true
-                
             case .BinaryOperation(let binaryOperation):
-                
-                // If the last operation was power for example, this will make sure that an underscore is placed
-                // in the current operation chain to represent that. Kind of like a reference to the last operation
-                // in the stack:
-                //
-                // 3 ^ 2
-                // _ + 3
-                // This will result in (3 ^ 2) + 3
-                
-                currentOperationChain += " " + (lastOperationWasAnUnaryOperation ? "_" : (String(accumulator)) + " \(symbol)")
-                
-                // Put parentheses around the current operation if multiplication, division or raising to the power
-                // 3 + 3 + 3 * 3 -> (3 + 3 + 3) * 3
-                if (symbol == "⨯" || symbol == "/" || symbol == "^") {
-                    currentOperationChain = "(\(currentOperationChain.substring(to: currentOperationChain.index(currentOperationChain.endIndex, offsetBy: -1))))\(symbol)"
-                }
-                
                 executePendingBinaryOperation()
                 pending = PendingBinaryOperationInfo(binaryOperation: binaryOperation, firstOperand: accumulator)
-                lastOperationWasAnUnaryOperation = false
 
             case .Equals:
 
-                if (isPartialResult) { pushCurrentOperationChainToOperationStack(withAccumulator: true) }
                 executePendingBinaryOperation()
             }
         }
-    }
-    
-    private func pushCurrentOperationChainToOperationStack(withAccumulator: Bool) {
-        currentOperationChain += withAccumulator ? " \(accumulator)" : "_"
-        operationStack.push(currentOperationChain)
-        currentOperationChain = ""
-    }
-    
-    private func resolveOperationStack() -> String {
-        
-        if (operationStack.isEmpty()) {return currentOperationChain}
-        
-        var stackCopy = operationStack;
-        var completeOperation = stackCopy.pop()
-        
-        // If the first item of the stack is an unary operation we have to include a underscore so the rest 
-        // of the stack is filled in correctly
-        if let operation = operations[completeOperation] {
-            switch operation {
-            case .UnaryOperation:
-                completeOperation += "_"
-            default:
-                break;
-            }
-        }
-        
-        while (!stackCopy.isEmpty()) {
-            let next = stackCopy.pop()
-            // If the next operation in the stack is an operation which uses items in the next operation after that,
-            // fill in with an underscore make a reference to that.
-            completeOperation = completeOperation.replacingOccurrences(of: "_", with: operations[next] != nil ? ("\(next)_") : ("(\(next))"))
-        }
-        
-        return completeOperation
     }
     
     private func executePendingBinaryOperation() {
@@ -181,37 +106,41 @@ class CalculatorBrain {
         }
     }
     
-    public struct PropertyList {
-        var program: [AnyObject]
-        var operations: [AnyObject]
-    }
-    
-     //typealias PropertyList = (program: [AnyObject], operations: [AnyObject])
+    typealias PropertyList = AnyObject
     
     var program: PropertyList {
         get {
-            
-            var ops = [AnyObject]()
-            
-            for item in operationStack.items {
-                ops.append(item as AnyObject)
-            }
-            
-            return PropertyList(program: internalProgram, operations: ops)
+            return internalProgram as CalculatorBrain.PropertyList
         }
         set {
-            clear()
-            clearOperations()
-            
-            for op in newValue.program {
-                if let operand = op as? Double { setOperand(operand: operand) }
-                else if let operation = op as? String { performOperation(symbol: operation) }
-            }
-            
-            for item in newValue.operations {
-                operationStack.push(item as! String)
-            }
+            variableValues.removeAll()
+            refresh(program: newValue)
         }
+    }
+    
+    private func refresh(program: PropertyList) {
+        
+        accumulator = 0.0
+        pending = nil
+        internalProgram.removeAll()
+        
+        if let arrayOfOps = program as? [AnyObject] {
+            for op in arrayOfOps {
+                if let operand = op as? Double {
+                    setOperand(operand: operand)
+                }
+                else if let operationOrVariableName = op as? String {
+                    
+                    // check if the string is an operation or variable
+                    if (operations.keys.contains(where: { $0 == operationOrVariableName })) {
+                        performOperation(symbol: operationOrVariableName)
+                    }
+                    else {
+                        setOperand(variableName: operationOrVariableName)
+                    }
+                }
+            }
+        }        
     }
     
     // Only there if there's a pending binary operation such as add, multiply, etc., therefore optional
@@ -229,21 +158,84 @@ class CalculatorBrain {
     }
     
     func clear() {
+        variableValues.removeAll()
         accumulator = 0.0
         pending = nil
         internalProgram.removeAll()
     }
     
-    func clearOperations() {
-        
-        operationStack.clear()
-        currentOperationChain = ""
-    }
-    
     var description: String {
         get {
-            return resolveOperationStack()
+            
+            var operationStack = Stack<String>()
+            var currentOperation = ""
+            
+            for op in internalProgram {
+                
+                if let operand = op as? Double {
+                    currentOperation.append(String(operand))
+                }
+                else if let operationOrVariableName = op as? String {
+                    
+                    if (operations.keys.contains(where: { $0 == operationOrVariableName })) {
+                        switch operations[operationOrVariableName]! {
+                            
+                        case .Constant:
+                            currentOperation.append(operationOrVariableName)
+                        case .UnaryOperation:
+                            operationStack.push(currentOperation)
+                            currentOperation = "\(operationOrVariableName)_"
+                        case .BinaryOperation:
+                            if (operationOrVariableName == "^" || operationOrVariableName == "/" || operationOrVariableName == "⨯") {
+                                currentOperation.insert("(", at: currentOperation.startIndex)
+                                currentOperation.insert(")", at: currentOperation.endIndex)
+                            }
+                            currentOperation.append(operationOrVariableName)
+                            
+                        case .Equals:
+                            break
+                        }
+                        
+                    }
+                    else {
+                        currentOperation.append(operationOrVariableName)
+                    }
+                }
+            }
+            
+            operationStack.push(currentOperation)
+            
+            var completeOperation = operationStack.pop()
+            
+            while (!operationStack.isEmpty()) {
+                let next = operationStack.pop()
+                // If the next operation in the stack is an operation which uses items in the next operation after that,
+                // fill in with an underscore make a reference to that.
+                completeOperation = completeOperation.replacingOccurrences(of: "_", with: operations[next] != nil ? ("\(next)_") : ("(\(next))"))
+            }
+            
+            return completeOperation
         }
+    }
+    
+    func undoLastAction() -> AnyObject? {
+        
+        if (internalProgram.count > 0) {
+            
+            if let operation = internalProgram[internalProgram.count - 1] as? String {
+                
+                if (operation == "=") {
+                    internalProgram.remove(at: internalProgram.count - 1)
+                }
+            }
+            
+            let op = internalProgram.remove(at: internalProgram.count - 1)
+            refresh(program: program)
+            
+            return op
+        }
+        
+        return nil
     }
     
     var result: Double {
