@@ -14,8 +14,17 @@ class ViewController: UIViewController {
     @IBOutlet weak var descriptionLabel: UILabel!
     
     private var userIsInTheMiddleOfTyping = false
+<<<<<<< HEAD
+=======
+    private var decimalPointInNumber = false
+    private var operationNext = false
+>>>>>>> new_description_system
     
     @IBAction private func touchDigit(_ sender: UIButton) {
+        
+        if (operationNext) {
+            return
+        }
         
         let digit = sender.currentTitle!
         
@@ -44,6 +53,7 @@ class ViewController: UIViewController {
     }
     
     private var brain = CalculatorBrain()
+    private var lastOperation = ""
     
     private func updateDescriptionLabel() {
         descriptionLabel.text = brain.description + (brain.isPartialResult ? "..." : "=")
@@ -55,6 +65,25 @@ class ViewController: UIViewController {
             brain.setOperand(operand: displayValue)
             userIsInTheMiddleOfTyping = false
         }
+        else {
+            if let operation = brain.operations[lastOperation] {
+                switch operation {
+                case .BinaryOperation:
+                    switch brain.operations[sender.currentTitle!]! {
+                    case .BinaryOperation:
+                        return
+                    default:
+                        break
+                    }
+                default:
+                    break
+                }
+            }
+        }
+        
+        if (sender.currentTitle != "=") {
+            lastOperation = sender.currentTitle!
+        }
         
         // If we can let mathematical symbol equal to sender's current title...
         if let mathematicalSymbol = sender.currentTitle {
@@ -63,10 +92,31 @@ class ViewController: UIViewController {
         }
         
         displayValue = brain.result
+        
+        operationNext = false
     }
     
     var savedProgram: CalculatorBrain.PropertyList?
     
+<<<<<<< HEAD
+=======
+    @IBAction func save() {
+     
+        if (!brain.isPartialResult) {
+            brain.variableValues["M"] = displayValue
+            displayValue = brain.result
+            userIsInTheMiddleOfTyping = false
+        }
+    }
+    
+    @IBAction func recall() {
+        brain.setOperand(variableName: "M")
+        displayValue = brain.result
+        descriptionLabel.text = brain.description + (brain.isPartialResult ? "..." : "=")
+        operationNext = true
+    }
+    
+>>>>>>> new_description_system
     @IBAction func store() {
         savedProgram = brain.program
     }
@@ -95,9 +145,36 @@ class ViewController: UIViewController {
         }
     }
     
+    @IBAction func undo() {
+        if (userIsInTheMiddleOfTyping) {
+            
+            if (display.text!.characters.count > 1 && displayValue != 0.0) {
+                var string = display.text!
+                string.remove(at: string.index(string.endIndex, offsetBy: -1))
+                display.text = string
+            }
+        }
+        else {
+            let objectRemoved = brain.undoLastAction()
+            
+            if let operation = objectRemoved as? String {
+                
+                switch brain.operations[operation]! {
+                case CalculatorBrain.Operation.UnaryOperation:
+                    lastOperation = operation
+                default:
+                    lastOperation = ""
+                    break
+                }
+            }
+            
+            displayValue = brain.result
+            descriptionLabel.text = brain.description + (brain.isPartialResult ? "..." : "=")
+        }
+    }
+    
     @IBAction func clear(_ sender: UIButton) {
         userIsInTheMiddleOfTyping = false
-        brain.clearOperations()
         brain.clear()
         displayValue = brain.result
         descriptionLabel.text = "..."
