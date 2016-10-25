@@ -14,11 +14,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var descriptionLabel: UILabel!
     
     private var userIsInTheMiddleOfTyping = false
-<<<<<<< HEAD
-=======
     private var decimalPointInNumber = false
     private var operationNext = false
->>>>>>> new_description_system
     
     @IBAction private func touchDigit(_ sender: UIButton) {
         
@@ -28,19 +25,24 @@ class ViewController: UIViewController {
         
         let digit = sender.currentTitle!
         
-        // If the number isn't an integer it includes a decimal point..
-        if (digit == "." && display.text!.range(of: ".") != nil && display.text! != "0.0") { return }
-        
+        if (digit == ".") {
+            if (!decimalPointInNumber) {
+                decimalPointInNumber = true
+            }
+            else {
+                return;
+            }
+        }
+
         if (userIsInTheMiddleOfTyping) {
             let textCurrentlyInDisplay = display.text!
             display.text = textCurrentlyInDisplay + digit
         }
         else {
-            
             display.text = digit
         }
         
-        userIsInTheMiddleOfTyping = true        
+        userIsInTheMiddleOfTyping = true
     }
     
     private var displayValue: Double {
@@ -55,15 +57,12 @@ class ViewController: UIViewController {
     private var brain = CalculatorBrain()
     private var lastOperation = ""
     
-    private func updateDescriptionLabel() {
-        descriptionLabel.text = brain.description + (brain.isPartialResult ? "..." : "=")
-    }
-    
     @IBAction private func performOperation(_ sender: UIButton) {
         
         if userIsInTheMiddleOfTyping {
             brain.setOperand(operand: displayValue)
             userIsInTheMiddleOfTyping = false
+            decimalPointInNumber = false
         }
         else {
             if let operation = brain.operations[lastOperation] {
@@ -88,7 +87,7 @@ class ViewController: UIViewController {
         // If we can let mathematical symbol equal to sender's current title...
         if let mathematicalSymbol = sender.currentTitle {
             brain.performOperation(symbol: mathematicalSymbol)
-            updateDescriptionLabel()
+            descriptionLabel.text = brain.description + (brain.isPartialResult ? "..." : "=")
         }
         
         displayValue = brain.result
@@ -98,8 +97,6 @@ class ViewController: UIViewController {
     
     var savedProgram: CalculatorBrain.PropertyList?
     
-<<<<<<< HEAD
-=======
     @IBAction func save() {
      
         if (!brain.isPartialResult) {
@@ -116,7 +113,6 @@ class ViewController: UIViewController {
         operationNext = true
     }
     
->>>>>>> new_description_system
     @IBAction func store() {
         savedProgram = brain.program
     }
@@ -125,25 +121,10 @@ class ViewController: UIViewController {
         if (savedProgram != nil) {
             brain.program = savedProgram!
             displayValue = brain.result
-            updateDescriptionLabel()
+            descriptionLabel.text = brain.description + (brain.isPartialResult ? "..." : "=")
         }
     }
     
-    @IBAction func storeInVariable(_ sender: UIButton) {
-        if (!brain.isPartialResult) {
-            brain.setOperand(operand: displayValue)
-            userIsInTheMiddleOfTyping = false
-            brain.variableValues["M"] = brain.result
-        }
-    }
-    
-    @IBAction func retrieveFromVariable(_ sender: UIButton) {
-        brain.setOperand(variable: "M")
-        // Update in case the user hasn't previously done any other operations
-        if (!brain.isPartialResult) {
-            displayValue = brain.result
-        }
-    }
     
     @IBAction func undo() {
         if (userIsInTheMiddleOfTyping) {
@@ -174,11 +155,11 @@ class ViewController: UIViewController {
     }
     
     @IBAction func clear(_ sender: UIButton) {
+        
         userIsInTheMiddleOfTyping = false
         brain.clear()
         displayValue = brain.result
         descriptionLabel.text = "..."
-        brain.variableValues["M"] = 0.0
     }
 }
 

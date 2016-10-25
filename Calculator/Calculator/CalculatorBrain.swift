@@ -26,13 +26,7 @@ struct Stack<Element> {
 
 class CalculatorBrain {
     
-<<<<<<< HEAD
-    // Create arithmetic enum with autoclosures?
-    
-    private enum Operation {
-=======
     enum Operation {
->>>>>>> new_description_system
         case Constant(Double)
         case UnaryOperation((Double) -> Double)
         case BinaryOperation((Double, Double) -> Double)
@@ -57,7 +51,6 @@ class CalculatorBrain {
     ]
     
     private var accumulator = 0.0
-    private var variable: Character?
     private var internalProgram = [AnyObject]()
     var variableValues = [String:Double]() {
         
@@ -71,28 +64,8 @@ class CalculatorBrain {
         internalProgram.append(variableName as AnyObject)
     }
     
-    var variableValues = [Character:Double]()
-    
-    private var usedVariableInOperation = false
-    
-    func setOperand(variable: Character) {
-        self.variable = variable
-        setOperand(operand: variableValues[variable] ?? 0.0)
-        internalProgram[internalProgram.count - 1] = variable as AnyObject
-        
-        usedVariableInOperation = true
-    }
-    
     func setOperand(operand: Double) {
         accumulator = operand
-<<<<<<< HEAD
-        
-        if (pending != nil && pending!.secondOperand == nil) {
-            pending!.secondOperand = accumulator
-        }
-                
-=======
->>>>>>> new_description_system
         internalProgram.append(operand as AnyObject)
     }
     
@@ -108,25 +81,6 @@ class CalculatorBrain {
             
             case .UnaryOperation(let unaryOperation):
                 
-<<<<<<< HEAD
-                if (pending != nil && pending!.secondOperand == nil) {
-                    break
-                }
-                
-                // Passing !lastOperationWasAnUnaryOperation prevents the accumulator being
-                // pushed onto the stack if the last operation was an unary operation.
-                // Say a case where the user presses 4 * 4, sqrt, sqrt. If we pass the
-                // accumulator with the second sqrt the stack would look like this
-                // 4 * 4
-                // sqrt(_) (the underscore refers to the operation under the current operation in the stack, aka 4 * 4)
-                // sqrt(4)
-                // which makes it sqrt(4)(sqrt(4 * 4)) when the stack is resolved later
-                //
-                // This passes the current operation chain – without the unary operation – to the stack
-                pushCurrentOperationChainToOperationStack(withAccumulator: !lastOperationWasAnUnaryOperation)
-                
-=======
->>>>>>> new_description_system
                 // Updates the accumulator with the correct value if a pending binary operation exists, so
                 // that the unary operation gets the proper value
                 // If this wasn't done something like
@@ -135,96 +89,19 @@ class CalculatorBrain {
                 accumulator = unaryOperation(accumulator)
                 
             case .BinaryOperation(let binaryOperation):
-<<<<<<< HEAD
-                
-                if (pending != nil && pending!.secondOperand == nil) {
-                    break
-                }
-                
-                // If the last operation was power for example, this will make sure that an underscore is placed
-                // in the current operation chain to represent that. Kind of like a reference to the last operation
-                // in the stack:
-                //
-                // 3 ^ 2
-                // _ + 3
-                // This will result in (3 ^ 2) + 3
-                
-                currentOperationChain += (lastOperationWasAnUnaryOperation ? "_\(symbol)" : (usedVariableInOperation ? String(variable!) : String(accumulator)) + "\(symbol)")
-                
-                // Put parentheses around the current operation if multiplication, division or raising to the power
-                // 3 + 3 + 3 * 3 -> (3 + 3 + 3) * 3
-                if (symbol == "⨯" || symbol == "/" || symbol == "^") {
-                    currentOperationChain = "(\(currentOperationChain.substring(to: currentOperationChain.index(currentOperationChain.endIndex, offsetBy: -1))))\(symbol)"
-                }
-                
-                executePendingBinaryOperation()
-                pending = PendingBinaryOperationInfo(binaryOperation: binaryOperation, firstOperand: accumulator, secondOperand: nil)
-                lastOperationWasAnUnaryOperation = false
-
-            case .Equals:
-
-                if (pending != nil && pending!.secondOperand == nil) {
-                    break
-                }
-                
-                if (isPartialResult) {
-                    pushCurrentOperationChainToOperationStack(withAccumulator: true)
-                    executePendingBinaryOperation()
-                }
-=======
                 executePendingBinaryOperation()
                 pending = PendingBinaryOperationInfo(binaryOperation: binaryOperation, firstOperand: accumulator)
 
             case .Equals:
 
                 executePendingBinaryOperation()
->>>>>>> new_description_system
             }
         }
-        
-        usedVariableInOperation = false
     }
     
-<<<<<<< HEAD
-    private func pushCurrentOperationChainToOperationStack(withAccumulator: Bool) {
-        currentOperationChain += withAccumulator ? (usedVariableInOperation ? String(variable!) : "\(accumulator)") : "_"
-        operationStack.push(currentOperationChain)
-        currentOperationChain = ""
-    }
-    
-    private func resolveOperationStack() -> String {
-        
-        if (operationStack.isEmpty()) { return currentOperationChain }
-        
-        var stackCopy = operationStack;
-        var completeOperation = stackCopy.pop()
-        
-        // If the first item of the stack is an unary operation we have to include a underscore so the rest 
-        // of the stack is filled in correctly
-        if let operation = operations[completeOperation] {
-            switch operation {
-            case .UnaryOperation:
-                completeOperation += "_"
-            default:
-                break;
-            }
-        }
-        
-        while (!stackCopy.isEmpty()) {
-            let next = stackCopy.pop()
-            // If the next operation in the stack is an operation which uses items in the next operation after that,
-            // fill in with an underscore make a reference to that.
-            completeOperation = completeOperation.replacingOccurrences(of: "_", with: operations[next] != nil ? ("\(next)_") : ("(\(next))"))
-        }
-        
-        return completeOperation
-    }
-    
-=======
->>>>>>> new_description_system
     private func executePendingBinaryOperation() {
-        if (pending != nil && pending!.secondOperand != nil) {
-            accumulator = pending!.binaryOperation(pending!.firstOperand, pending!.secondOperand!)
+        if (pending != nil) {
+            accumulator = pending!.binaryOperation(pending!.firstOperand, accumulator)
             pending = nil
         }
     }
@@ -236,28 +113,8 @@ class CalculatorBrain {
             return internalProgram as CalculatorBrain.PropertyList
         }
         set {
-<<<<<<< HEAD
-            rebuildFromPropertyList(propertyList: newValue)
-        }
-    }
-    
-    private func rebuildFromPropertyList(propertyList: PropertyList) {
-        
-        clear()
-        clearOperations()
-        
-        for op in propertyList.program {
-            if let operand = op as? Double { setOperand(operand: operand) }
-            else if let operation = op as? String { performOperation(symbol: operation) }
-            else if let variable = op as? Character { setOperand(variable: variable) }
-        }
-        
-        for item in propertyList.operations {
-            operationStack.push(item as! String)
-=======
             variableValues.removeAll()
             refresh(program: newValue)
->>>>>>> new_description_system
         }
     }
     
@@ -292,7 +149,6 @@ class CalculatorBrain {
     private struct PendingBinaryOperationInfo {
         var binaryOperation: (Double, Double) -> Double
         var firstOperand: Double
-        var secondOperand: Double?
     }
     
     var isPartialResult: Bool {
@@ -384,7 +240,6 @@ class CalculatorBrain {
     
     var result: Double {
         get {
-            
             return accumulator
         }
     }
