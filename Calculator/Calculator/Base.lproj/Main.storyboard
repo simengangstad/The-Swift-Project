@@ -23,7 +23,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PfB-Vq-r3h" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-990" y="383"/>
+            <point key="canvasLocation" x="-305" y="517"/>
         </scene>
         <!--Split View Controller-->
         <scene sceneID="zlR-He-DCt">
@@ -130,6 +130,16 @@
                                                         </state>
                                                         <connections>
                                                             <action selector="clear:" destination="BYZ-38-t0r" eventType="touchUpInside" id="tlz-u4-jBs"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8bT-48-3C6">
+                                                        <color key="backgroundColor" red="0.0" green="0.50196081400000003" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                                        <state key="normal" title="Graph">
+                                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                        </state>
+                                                        <connections>
+                                                            <segue destination="s2o-Wb-HzR" kind="showDetail" identifier="Show Graph" id="eni-Oh-f3a"/>
                                                         </connections>
                                                     </button>
                                                 </subviews>
@@ -425,4 +435,7 @@
             <point key="canvasLocation" x="-991" y="-279"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="eni-Oh-f3a"/>
+    </inferredMetricsTieBreakers>
 </document>
