@@ -7,30 +7,66 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Graph View Controller-->
         <scene sceneID="4DW-m3-KKJ">
             <objects>
-                <viewController id="s2o-Wb-HzR" sceneMemberID="viewController">
+                <viewController id="s2o-Wb-HzR" customClass="GraphViewController" customModule="Calculator" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="CaF-cf-VYF"/>
                         <viewControllerLayoutGuide type="bottom" id="Xyi-xE-vtC"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Zqx-g0-U56">
-                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fwr-os-5uc" customClass="GraphView" customModule="Calculator" customModuleProvider="target">
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="8Qp-UB-ZpA" appends="YES" id="jgq-zH-VZJ"/>
+                                    <outletCollection property="gestureRecognizers" destination="kxZ-xh-S68" appends="YES" id="SxE-sP-hGi"/>
+                                    <outletCollection property="gestureRecognizers" destination="Ghb-Su-20i" appends="YES" id="Hwp-z4-SR4"/>
+                                </connections>
+                            </view>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Fwr-os-5uc" firstAttribute="top" secondItem="Zqx-g0-U56" secondAttribute="top" id="I6f-gp-Yoe"/>
+                            <constraint firstItem="Fwr-os-5uc" firstAttribute="leading" secondItem="Zqx-g0-U56" secondAttribute="leading" id="a1P-KC-Yeo"/>
+                            <constraint firstItem="Fwr-os-5uc" firstAttribute="bottom" secondItem="Xyi-xE-vtC" secondAttribute="top" id="e86-Gr-RcW"/>
+                            <constraint firstAttribute="trailing" secondItem="Fwr-os-5uc" secondAttribute="trailing" id="hQS-8s-nxS"/>
+                        </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="piJ-wu-gFa"/>
+                    <connections>
+                        <outlet property="graphView" destination="Fwr-os-5uc" id="z8Q-KZ-tM9"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PfB-Vq-r3h" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <panGestureRecognizer minimumNumberOfTouches="1" id="8Qp-UB-ZpA">
+                    <connections>
+                        <action selector="translate:" destination="s2o-Wb-HzR" id="qqI-IR-7wB"/>
+                    </connections>
+                </panGestureRecognizer>
+                <pinchGestureRecognizer id="kxZ-xh-S68">
+                    <connections>
+                        <action selector="changeScale:" destination="s2o-Wb-HzR" id="ANt-ZE-Wkr"/>
+                    </connections>
+                </pinchGestureRecognizer>
+                <tapGestureRecognizer numberOfTapsRequired="2" id="Ghb-Su-20i">
+                    <connections>
+                        <action selector="doubleTap:" destination="s2o-Wb-HzR" id="RTD-ln-Qt9"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="-305" y="517"/>
+            <point key="canvasLocation" x="948" y="598.65067466266873"/>
         </scene>
         <!--Split View Controller-->
         <scene sceneID="zlR-He-DCt">
             <objects>
                 <splitViewController id="38x-dQ-9OY" sceneMemberID="viewController">
                     <connections>
-                        <segue destination="s2o-Wb-HzR" kind="relationship" relationship="detailViewController" id="Xf8-rC-5zb"/>
+                        <segue destination="J7P-yx-E41" kind="relationship" relationship="detailViewController" id="Xf8-rC-5zb"/>
                         <segue destination="evb-Ti-DCZ" kind="relationship" relationship="masterViewController" id="UP2-is-cWb"/>
                     </connections>
                 </splitViewController>
@@ -38,10 +74,10 @@
             </objects>
             <point key="canvasLocation" x="-1940" y="55"/>
         </scene>
-        <!--View Controller-->
+        <!--Calculator View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Calculator" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="CalculatorViewController" customModule="Calculator" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -139,7 +175,7 @@
                                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         </state>
                                                         <connections>
-                                                            <segue destination="s2o-Wb-HzR" kind="showDetail" identifier="Show Graph" id="eni-Oh-f3a"/>
+                                                            <segue destination="J7P-yx-E41" kind="showDetail" identifier="Show Graph" id="eni-Oh-f3a"/>
                                                         </connections>
                                                     </button>
                                                 </subviews>
@@ -414,7 +450,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-304" y="-279"/>
+            <point key="canvasLocation" x="89" y="-308"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="n3m-i8-CvA">
@@ -433,6 +469,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8QB-Rq-ewr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-991" y="-279"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="4h0-bX-pK9">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="J7P-yx-E41" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="yAL-91-tcp">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="s2o-Wb-HzR" kind="relationship" relationship="rootViewController" id="GGP-DC-cUv"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="prr-mN-3c1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="8.8000000000000007" y="598.65067466266873"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>

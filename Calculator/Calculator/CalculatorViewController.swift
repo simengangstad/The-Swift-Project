@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class CalculatorViewController: UIViewController {
 
     @IBOutlet private weak var display: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
@@ -64,7 +64,7 @@ class ViewController: UIViewController {
             userIsInTheMiddleOfTyping = false
             decimalPointInNumber = false
         }
-        else {
+        /*else {
             if let operation = brain.operations[lastOperation] {
                 switch operation {
                 case .BinaryOperation:
@@ -78,7 +78,7 @@ class ViewController: UIViewController {
                     break
                 }
             }
-        }
+        }*/
         
         if (sender.currentTitle != "=") {
             lastOperation = sender.currentTitle!
@@ -160,6 +160,23 @@ class ViewController: UIViewController {
         brain.clear()
         displayValue = brain.result
         descriptionLabel.text = "..."
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let destinationController = segue.destination
+        if let description = segue.identifier {
+            
+            switch description {
+            case "Show Graph":
+                
+            if let navigationVC = destinationController as? UINavigationController {
+                if let graphViewController = navigationVC.viewControllers[0] as? GraphViewController {
+                    graphViewController.program = brain.program as! [AnyObject]
+                }
+            }
+            default: break
+            }
+        }
     }
 }
 
