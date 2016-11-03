@@ -7,8 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AD0B09261DCB66C000FE097C /* CassiniViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD0B09251DCB66C000FE097C /* CassiniViewController.swift */; };
 		AD402CCB1DCA6EC200B42FA7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD402CCA1DCA6EC200B42FA7 /* AppDelegate.swift */; };
-		AD402CCD1DCA6EC200B42FA7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD402CCC1DCA6EC200B42FA7 /* ViewController.swift */; };
+		AD402CCD1DCA6EC200B42FA7 /* ImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD402CCC1DCA6EC200B42FA7 /* ImageViewController.swift */; };
 		AD402CD01DCA6EC200B42FA7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AD402CCE1DCA6EC200B42FA7 /* Main.storyboard */; };
 		AD402CD21DCA6EC200B42FA7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AD402CD11DCA6EC200B42FA7 /* Assets.xcassets */; };
 		AD402CD51DCA6EC200B42FA7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AD402CD31DCA6EC200B42FA7 /* LaunchScreen.storyboard */; };
@@ -16,9 +17,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		AD0B09251DCB66C000FE097C /* CassiniViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CassiniViewController.swift; sourceTree = "<group>"; };
 		AD402CC71DCA6EC200B42FA7 /* Cassini.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cassini.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD402CCA1DCA6EC200B42FA7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		AD402CCC1DCA6EC200B42FA7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		AD402CCC1DCA6EC200B42FA7 /* ImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewController.swift; sourceTree = "<group>"; };
 		AD402CCF1DCA6EC200B42FA7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		AD402CD11DCA6EC200B42FA7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AD402CD41DCA6EC200B42FA7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -57,8 +59,9 @@
 			isa = PBXGroup;
 			children = (
 				AD402CDC1DCA6EE000B42FA7 /* Supporting files */,
-				AD402CCC1DCA6EC200B42FA7 /* ViewController.swift */,
+				AD402CCC1DCA6EC200B42FA7 /* ImageViewController.swift */,
 				AD402CCE1DCA6EC200B42FA7 /* Main.storyboard */,
+				AD0B09251DCB66C000FE097C /* CassiniViewController.swift */,
 				AD402CDD1DCA6F4000B42FA7 /* DemoURL.swift */,
 				AD402CD61DCA6EC200B42FA7 /* Info.plist */,
 			);
@@ -148,9 +151,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AD402CCD1DCA6EC200B42FA7 /* ViewController.swift in Sources */,
+				AD402CCD1DCA6EC200B42FA7 /* ImageViewController.swift in Sources */,
 				AD402CCB1DCA6EC200B42FA7 /* AppDelegate.swift in Sources */,
 				AD402CDE1DCA6F4000B42FA7 /* DemoURL.swift in Sources */,
+				AD0B09261DCB66C000FE097C /* CassiniViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -314,6 +318,7 @@
 				AD402CDB1DCA6EC200B42FA7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
