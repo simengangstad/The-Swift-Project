@@ -39,8 +39,8 @@ class TweetDetailTableViewController: UITableViewController {
                                  forName: "Links",
                                  withIdentifier: CellIdentifier.Mention,
                                  whenClicked: { [weak self] in
-                                    let url = URL(fileURLWithPath: (self?.sections[$0.section].content[$0.row] as! Mention).keyword)
-                                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                                    let url = URL(string: (self?.sections[$0.section].content[$0.row] as! Mention).keyword)
+                                    UIApplication.shared.open(url!)
             })
             addAssociatedContent(content: tweet!.userMentions,
                                  forName: "Users",

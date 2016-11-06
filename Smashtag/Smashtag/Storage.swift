@@ -13,13 +13,16 @@ class Storage {
     private static let recentKey = "recent_searches"
     
     static func saveToRecent(string: String) {
-        if var array = getRecents() {
-            array.append(string)
-            Storage.userDefaults.set(array, forKey: recentKey)
-            if !Storage.userDefaults.synchronize() {
-                print("Couldn't save to user defaults")
-            }
+    
+        var array = getRecents()
+        
+        if array == nil {
+            array = [String]()
         }
+        
+        array!.append(string)
+        
+        Storage.userDefaults.set(array, forKey: recentKey)
     }
     
     static func getRecents() -> [String]? {

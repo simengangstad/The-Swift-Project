@@ -12,10 +12,19 @@ class RecentSearchesTableViewController: UITableViewController {
     
     private var recentSearches = [String]()
 
-    override func viewDidLoad() {
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
+        recentSearches.removeAll()
         if let array = Storage.getRecents() {
             recentSearches.append(contentsOf: array)
+            tableView.reloadData()
+        }
+        
+        recentSearches.reverse()
+        
+        while recentSearches.count > 100 {
+            recentSearches.removeLast()
         }
     }
     
@@ -24,7 +33,7 @@ class RecentSearchesTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
+        return recentSearches.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

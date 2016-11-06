@@ -67,6 +67,7 @@ class ImageViewController: UIViewController, UIScrollViewDelegate {
             imageView.image = newValue
             imageView.sizeToFit()
             scrollView?.contentSize = imageView.frame.size
+            imageView.contentMode = UIViewContentMode.scaleAspectFill
             spinner?.stopAnimating()
         }
     }

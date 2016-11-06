@@ -33,9 +33,8 @@ class MediaItemTableViewCell: UITableViewCell {
                     DispatchQueue.main.async {
                         
                         if (item.url == self?.mediaItem?.url) {
-                            
-                            let image = UIImage(data: imageData)
-                            self?.imageView?.image = image
+                            self?.mediaItemImageView?.image = UIImage(data: imageData)
+                            self?.mediaItemImageView.bounds = CGRect(x: 0, y: 0, width: self!.bounds.width, height: (1.0 / CGFloat(item.aspectRatio)) * self!.bounds.width)
                             self?.setNeedsLayout()
                         }
                         else {

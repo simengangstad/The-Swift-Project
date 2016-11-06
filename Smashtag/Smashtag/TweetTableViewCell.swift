@@ -37,7 +37,6 @@ class TweetTableViewCell: UITableViewCell {
         }
         
         if (prefix != nil) {
-            
             attributedString.addAttribute(NSForegroundColorAttributeName, value: colourDictionary[prefix!]!, range: range)
         }
     }

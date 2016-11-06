@@ -37,11 +37,13 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
     private var lastTwitterRequest: Twitter.Request?
     
     private func searchForTweets() {
+        activityIndicatorView.startAnimating()
         if let request = twitterRequest {
             lastTwitterRequest = request
             request.fetchTweets() { [weak weakSelf = self] (newTweets) in
                 DispatchQueue.main.async() {
                     if request == weakSelf?.lastTwitterRequest {
+                        weakSelf?.activityIndicatorView.stopAnimating()
                         if !newTweets.isEmpty {
                             weakSelf?.tweets.insert(newTweets, at: 0)
                         }
@@ -51,10 +53,16 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
         }
     }
     
+    let activityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.white)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.estimatedRowHeight = tableView.rowHeight
         tableView.rowHeight = UITableViewAutomaticDimension
+
+        activityIndicatorView.hidesWhenStopped = true
+        activityIndicatorView.color = UIColor.blue
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: activityIndicatorView)
     }
     
     // MARK: - Table view data source
