@@ -95,7 +95,13 @@
                             <outlet property="delegate" destination="h0J-G2-QyN" id="gJh-43-fga"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Smashtag" id="1kf-pq-1ni"/>
+                    <navigationItem key="navigationItem" title="Smashtag" id="1kf-pq-1ni">
+                        <barButtonItem key="rightBarButtonItem" title="Tweeters" id="02N-H5-8OZ">
+                            <connections>
+                                <segue destination="Djs-5F-Jfc" kind="show" identifier="TweetersMentioningSearchTextShow" id="wRY-4A-txQ"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="searchTextField" destination="hAz-q1-R5c" id="M0u-LF-yRX"/>
                     </connections>
@@ -103,6 +109,34 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Prq-vb-XHj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2425" y="43"/>
+        </scene>
+        <!--Tweeters Table View Controller-->
+        <scene sceneID="ICY-Vr-1Xj">
+            <objects>
+                <tableViewController id="Djs-5F-Jfc" customClass="TweetersTableViewController" customModule="Smashtag" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="qSf-G9-vh9">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="Wc1-h5-0Cb">
+                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Wc1-h5-0Cb" id="7Ga-RR-t1v">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="Djs-5F-Jfc" id="Ttj-ae-a0t"/>
+                            <outlet property="delegate" destination="Djs-5F-Jfc" id="T27-px-gn3"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="AxF-h8-15S" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3401" y="43"/>
         </scene>
         <!--Tweet-->
         <scene sceneID="xeC-w7-Om8">
@@ -139,11 +173,11 @@
                                 <rect key="frame" x="0.0" y="106" width="375" height="64"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="vmL-jz-zgK" id="N93-bE-Iob">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="63.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="63"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="unV-ZJ-pRR">
-                                            <rect key="frame" x="15" y="0.0" width="345" height="63.5"/>
+                                            <rect key="frame" x="15" y="0.0" width="345" height="63"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
@@ -238,11 +272,11 @@
                                 <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hCZ-xU-Yxp" id="Raf-oM-njn">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="nhE-BM-oej">
-                                            <rect key="frame" x="15" y="0.0" width="345" height="43.5"/>
+                                            <rect key="frame" x="15" y="0.0" width="345" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>

@@ -10,7 +10,7 @@ import UIKit
 import Twitter
 
 class TweetTableViewController: UITableViewController, UITextFieldDelegate {
-    
+        
     var tweets = [Array<Twitter.Tweet>]() {
         didSet {
             tableView.reloadData()
@@ -62,7 +62,7 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
 
         activityIndicatorView.hidesWhenStopped = true
         activityIndicatorView.color = UIColor.blue
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: activityIndicatorView)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: activityIndicatorView)
     }
     
     // MARK: - Table view data source
