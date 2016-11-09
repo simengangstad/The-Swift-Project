@@ -8,9 +8,14 @@
 
 import UIKit
 import Twitter
+import CoreData
 
 class TweetTableViewController: UITableViewController, UITextFieldDelegate {
-        
+    
+    @IBOutlet weak var tweeters: UIBarButtonItem!
+    
+    var managedObjectContext: NSManagedObjectContext? = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext
+    
     var tweets = [Array<Twitter.Tweet>]() {
         didSet {
             tableView.reloadData()
@@ -37,15 +42,18 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
     private var lastTwitterRequest: Twitter.Request?
     
     private func searchForTweets() {
-        activityIndicatorView.startAnimating()
+        //navigationItem.rightBarButtonItem = activityIndicatorBarButtonItem
+        //activityIndicatorView.startAnimating()
         if let request = twitterRequest {
             lastTwitterRequest = request
-            request.fetchTweets() { [weak weakSelf = self] (newTweets) in
+            request.fetchTweets() { [weak self] (newTweets) in
                 DispatchQueue.main.async() {
-                    if request == weakSelf?.lastTwitterRequest {
-                        weakSelf?.activityIndicatorView.stopAnimating()
+                    if request == self?.lastTwitterRequest {
+                        //self?.activityIndicatorView.stopAnimating()
+                        //self?.navigationItem.rightBarButtonItem = self?.tweeters
                         if !newTweets.isEmpty {
-                            weakSelf?.tweets.insert(newTweets, at: 0)
+                            self?.tweets.insert(newTweets, at: 0)
+                            self?.updateDatabase(newTweets: newTweets)
                         }
                     }
                 }
@@ -53,7 +61,14 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
         }
     }
     
-    let activityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.white)
+    private let activityIndicatorBarButtonItem = UIBarButtonItem(customView: UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.white))
+    
+    private var activityIndicatorView: UIActivityIndicatorView {
+    
+        get {
+            return activityIndicatorBarButtonItem.customView as! UIActivityIndicatorView
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,7 +77,36 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
 
         activityIndicatorView.hidesWhenStopped = true
         activityIndicatorView.color = UIColor.blue
-        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: activityIndicatorView)
+    }
+    
+    private func updateDatabase(newTweets: [Tweet]) {
+        managedObjectContext?.perform { [weak self] in
+            for twitterInfo in newTweets {
+                _ = TweetData.tweetWithTwitterInfo(twitterInfo: twitterInfo, inManagedObjectContext: (self?.managedObjectContext!)!)
+            }
+            
+            do {
+                
+                try self?.managedObjectContext?.save()
+            }
+            catch let error {
+                print("Core Data Error: \(error)")
+            }
+        }
+        
+        printDatabaseStatistics()
+        print("Done printing database statistics")
+    }
+    
+    private func printDatabaseStatistics() {
+        managedObjectContext?.perform {
+            if let results = try? self.managedObjectContext!.fetch(TwitterUser.fetchRequest() as NSFetchRequest<TwitterUser>) {
+                print("\(results.count) users")
+            }
+            
+            let tweetCount = try? self.managedObjectContext!.count(for: TweetData.fetchRequest() as NSFetchRequest<TweetData>)
+            print("\(tweetCount!) tweets")
+        }
     }
     
     // MARK: - Table view data source
@@ -112,6 +156,12 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
             if let tweetDetailController = segue.destination as? TweetDetailTableViewController {
                 tweetDetailController.tweet = (sender as? TweetTableViewCell)?.tweet!
                 tweetDetailController.navigationItem.title = (sender as? TweetTableViewCell)?.tweet!.user.name
+            }
+        }
+        else if segue.identifier == "TweetersMentioningSearchTerm" {
+            if let tweetersTVC = segue.destination as? TweetersTableViewController {
+                tweetersTVC.mention = searchText
+                tweetersTVC.managedObjectContext = managedObjectContext
             }
         }
      }
