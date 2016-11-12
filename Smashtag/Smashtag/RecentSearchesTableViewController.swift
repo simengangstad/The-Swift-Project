@@ -7,11 +7,14 @@
 //
 
 import UIKit
+import CoreData
 
 class RecentSearchesTableViewController: UITableViewController {
     
     private var recentSearches = [String]()
 
+    private var managedObjectContext: NSManagedObjectContext? = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -31,6 +34,11 @@ class RecentSearchesTableViewController: UITableViewController {
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
+    
+    override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
+     
+        performSegue(withIdentifier: "Show Mentions", sender: recentSearches[indexPath.row])
+    }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return recentSearches.count
@@ -46,6 +54,12 @@ class RecentSearchesTableViewController: UITableViewController {
         if segue.identifier == "Show Tweets" {
             if let destinationViewController = segue.destination as? TweetTableViewController {
                 destinationViewController.searchText = (sender as! UITableViewCell).textLabel?.text!
+            }
+        }
+        else if segue.identifier == "Show Mentions" {
+            if let destinationViewController = segue.destination as? MentionsTableViewController {
+                destinationViewController.searchTerm = (sender as? String)
+                destinationViewController.managedObjectContext = managedObjectContext
             }
         }
     }

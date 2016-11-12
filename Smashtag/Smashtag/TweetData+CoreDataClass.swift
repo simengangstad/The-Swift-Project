@@ -14,14 +14,14 @@ import Twitter
 @objc(TweetData)
 public class TweetData: NSManagedObject {
 
-    class func tweetWithTwitterInfo(twitterInfo: Tweet, inManagedObjectContext context: NSManagedObjectContext) -> TweetData? {
+    class func tweetWithTwitterInfo(twitterInfo: Tweet, inManagedObjectContext context: NSManagedObjectContext) -> (tweetData: TweetData?, newTweet: Bool) {
         
         let request: NSFetchRequest<TweetData> = TweetData.fetchRequest()
         request.predicate = NSPredicate(format: "unique = %@", twitterInfo.id)
         
         if let tweet = (try? context.fetch(request))?.first {
                         
-            return tweet
+            return (tweet, false)
         }
         else if let tweet = NSEntityDescription.insertNewObject(forEntityName: "TweetData", into: context) as? TweetData {
 
@@ -30,9 +30,9 @@ public class TweetData: NSManagedObject {
             tweet.posted = twitterInfo.created as NSDate?
             tweet.tweeter = TwitterUser.twitterUserWithTwitterInfo(twitterInfo: twitterInfo.user, inManagedObjectContext: context)
                         
-            return tweet
+            return (tweet, true)
         }
         
-        return nil
+        return (nil, false)
     }
 }

@@ -14,7 +14,7 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
     
     @IBOutlet weak var tweeters: UIBarButtonItem!
     
-    var managedObjectContext: NSManagedObjectContext? = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext
+    private var managedObjectContext: NSManagedObjectContext? = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext
     
     var tweets = [Array<Twitter.Tweet>]() {
         didSet {
@@ -44,6 +44,7 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
     private func searchForTweets() {
         //navigationItem.rightBarButtonItem = activityIndicatorBarButtonItem
         //activityIndicatorView.startAnimating()
+        Storage.saveToRecent(string: searchText!)
         if let request = twitterRequest {
             lastTwitterRequest = request
             request.fetchTweets() { [weak self] (newTweets) in
@@ -82,7 +83,14 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
     private func updateDatabase(newTweets: [Tweet]) {
         managedObjectContext?.perform { [weak self] in
             for twitterInfo in newTweets {
-                _ = TweetData.tweetWithTwitterInfo(twitterInfo: twitterInfo, inManagedObjectContext: (self?.managedObjectContext!)!)
+                
+                let data = TweetData.tweetWithTwitterInfo(twitterInfo: twitterInfo, inManagedObjectContext: (self?.managedObjectContext!)!)
+            
+                var mentions = [Mention](); mentions.append(contentsOf: twitterInfo.userMentions); mentions.append(contentsOf: twitterInfo.hashtags)
+                
+                for mention in mentions {
+                    _ = MentionData.mentionData(withMention: mention, andSearchText: (self?.searchText!)!, inManagedObjectContext: (self?.managedObjectContext!)!, forNewTweet: data.newTweet)
+                }
             }
             
             do {
@@ -106,6 +114,9 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
             
             let tweetCount = try? self.managedObjectContext!.count(for: TweetData.fetchRequest() as NSFetchRequest<TweetData>)
             print("\(tweetCount!) tweets")
+            
+            print("\((try? self.managedObjectContext!.count(for: MentionData.fetchRequest() as NSFetchRequest<MentionData>))!) mentions")
+            print("\((try? self.managedObjectContext!.count(for: SearchTerm.fetchRequest() as NSFetchRequest<SearchTerm>))!) search terms")
         }
     }
     
@@ -145,7 +156,6 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         searchText = textField.text
-        Storage.saveToRecent(string: searchText!)
         return true
     }
     

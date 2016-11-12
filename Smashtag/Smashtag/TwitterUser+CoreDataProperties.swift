@@ -2,7 +2,7 @@
 //  TwitterUser+CoreDataProperties.swift
 //  Smashtag
 //
-//  Created by Simen Gangstad on 09.11.2016.
+//  Created by Simen Gangstad on 12.11.2016.
 //  Copyright © 2016 Simen Gangstad. All rights reserved.
 //
 

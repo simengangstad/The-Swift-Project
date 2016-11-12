@@ -16,9 +16,11 @@ class TweetersTableViewController: CoreDataTableViewController {
     
     private func updateUI() {
         
-        if let context = managedObjectContext, (mention?.characters.count)! > 0 {
+        if let context = managedObjectContext, mention != nil, (mention?.characters.count)! > 0 {
             let request = NSFetchRequest<NSFetchRequestResult>(entityName: "TwitterUser")
             request.predicate = NSPredicate(format: "any tweets.text contains[c] %@", mention!)
+            
+            // Sort by number of mentions in given tweets (both users and hashtags) 
             request.sortDescriptors = [NSSortDescriptor(key: "screenName", ascending: true, selector: #selector(NSString.localizedCaseInsensitiveCompare(_:)))]
             fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
         }
