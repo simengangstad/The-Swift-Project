@@ -7,10 +7,11 @@
 //
 
 import UIKit
+import CoreGraphics
 
 class FaceViewController: UIViewController {
     
-    @IBOutlet weak var faceView: FaceView! {
+    @IBOutlet internal weak var faceView: FaceView! {
         didSet {
             
             faceView.addGestureRecognizer(UIPinchGestureRecognizer(target: faceView, action: #selector(FaceView.changeScale)))
@@ -27,16 +28,57 @@ class FaceViewController: UIViewController {
         }
     }
     
-    @IBAction func toggleEyes(_ sender: UITapGestureRecognizer) {
-        if sender.state == .ended {
-            switch expression.eyes {
-            case .Open: expression.eyes = .Closed
-            case .Closed: expression.eyes = .Open
-            case .Squinting: break
-            }
-        }
+    private struct Animation {
+        static let ShakeAngle = CGFloat(M_PI/6)
+        static let ShakeDuration = 0.5
     }
     
+    @IBAction func headShake(_ sender: UITapGestureRecognizer) {
+        
+        UIView.animate(
+            withDuration: Animation.ShakeDuration,
+            
+            animations: {
+        
+                self.faceView.transform = self.faceView.transform.rotated(by: Animation.ShakeAngle)
+        },
+            completion: { finished in
+                UIView.animate(
+                    withDuration: Animation.ShakeDuration,
+                    
+                    animations: {
+                        
+                        self.faceView.transform = self.faceView.transform.rotated(by: -Animation.ShakeAngle*2)
+                },
+                    completion: { finished in
+                        
+                        UIView.animate(
+                            withDuration: Animation.ShakeDuration,
+                            
+                            animations: {
+                                
+                                self.faceView.transform = self.faceView.transform.rotated(by: Animation.ShakeAngle)
+                        },
+                            completion: { finished in
+                                if finished {
+                                    
+                                }
+                        })
+                })
+        })
+    }
+    
+//    
+//    @IBAction func toggleEyes(_ sender: UITapGestureRecognizer) {
+//        if sender.state == .ended {
+//            switch expression.eyes {
+//            case .Open: expression.eyes = .Closed
+//            case .Closed: expression.eyes = .Open
+//            case .Squinting: break
+//            }
+//        }
+//    }
+//    
     var expression: FacialExpression = FacialExpression(eyes: .Open, eyeBrows: .Normal, mouth: .Smile) {
         didSet {
             updateUI()
