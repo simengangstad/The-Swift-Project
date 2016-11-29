@@ -1,0 +1,336 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		ADF1839B1DED5F10003C819E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF1839A1DED5F10003C819E /* AppDelegate.swift */; };
+		ADF183A01DED5F10003C819E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ADF1839E1DED5F10003C819E /* Main.storyboard */; };
+		ADF183A21DED5F10003C819E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ADF183A11DED5F10003C819E /* Assets.xcassets */; };
+		ADF183A51DED5F10003C819E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ADF183A31DED5F10003C819E /* LaunchScreen.storyboard */; };
+		ADF183B11DED5FBE003C819E /* CloudKitExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF183AD1DED5FBE003C819E /* CloudKitExtensions.swift */; };
+		ADF183B21DED5FBE003C819E /* QandATableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF183AE1DED5FBE003C819E /* QandATableViewController.swift */; };
+		ADF183B31DED5FBE003C819E /* QandAAccessoryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF183AF1DED5FBE003C819E /* QandAAccessoryTableViewController.swift */; };
+		ADF183B41DED5FBE003C819E /* TextTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF183B01DED5FBE003C819E /* TextTableViewController.swift */; };
+		ADF183B61DED60A8003C819E /* CloudQandATableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF183B51DED60A8003C819E /* CloudQandATableViewController.swift */; };
+		ADF183B81DED6B94003C819E /* AllQandAsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF183B71DED6B94003C819E /* AllQandAsTableViewController.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		ADF183971DED5F10003C819E /* Pollster.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pollster.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		ADF1839A1DED5F10003C819E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		ADF1839F1DED5F10003C819E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		ADF183A11DED5F10003C819E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		ADF183A41DED5F10003C819E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		ADF183A61DED5F10003C819E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		ADF183AD1DED5FBE003C819E /* CloudKitExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudKitExtensions.swift; sourceTree = "<group>"; };
+		ADF183AE1DED5FBE003C819E /* QandATableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QandATableViewController.swift; sourceTree = "<group>"; };
+		ADF183AF1DED5FBE003C819E /* QandAAccessoryTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QandAAccessoryTableViewController.swift; sourceTree = "<group>"; };
+		ADF183B01DED5FBE003C819E /* TextTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextTableViewController.swift; sourceTree = "<group>"; };
+		ADF183B51DED60A8003C819E /* CloudQandATableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudQandATableViewController.swift; sourceTree = "<group>"; };
+		ADF183B71DED6B94003C819E /* AllQandAsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AllQandAsTableViewController.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		ADF183941DED5F10003C819E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		ADF1838E1DED5F0F003C819E = {
+			isa = PBXGroup;
+			children = (
+				ADF183991DED5F10003C819E /* Pollster */,
+				ADF183981DED5F10003C819E /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		ADF183981DED5F10003C819E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				ADF183971DED5F10003C819E /* Pollster.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		ADF183991DED5F10003C819E /* Pollster */ = {
+			isa = PBXGroup;
+			children = (
+				ADF183B71DED6B94003C819E /* AllQandAsTableViewController.swift */,
+				ADF183B51DED60A8003C819E /* CloudQandATableViewController.swift */,
+				ADF1839A1DED5F10003C819E /* AppDelegate.swift */,
+				ADF1839E1DED5F10003C819E /* Main.storyboard */,
+				ADF183AC1DED5F2A003C819E /* Supporting files */,
+			);
+			path = Pollster;
+			sourceTree = "<group>";
+		};
+		ADF183AC1DED5F2A003C819E /* Supporting files */ = {
+			isa = PBXGroup;
+			children = (
+				ADF183AD1DED5FBE003C819E /* CloudKitExtensions.swift */,
+				ADF183AE1DED5FBE003C819E /* QandATableViewController.swift */,
+				ADF183AF1DED5FBE003C819E /* QandAAccessoryTableViewController.swift */,
+				ADF183B01DED5FBE003C819E /* TextTableViewController.swift */,
+				ADF183A11DED5F10003C819E /* Assets.xcassets */,
+				ADF183A31DED5F10003C819E /* LaunchScreen.storyboard */,
+				ADF183A61DED5F10003C819E /* Info.plist */,
+			);
+			name = "Supporting files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		ADF183961DED5F10003C819E /* Pollster */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = ADF183A91DED5F10003C819E /* Build configuration list for PBXNativeTarget "Pollster" */;
+			buildPhases = (
+				ADF183931DED5F10003C819E /* Sources */,
+				ADF183941DED5F10003C819E /* Frameworks */,
+				ADF183951DED5F10003C819E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Pollster;
+			productName = Pollster;
+			productReference = ADF183971DED5F10003C819E /* Pollster.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		ADF1838F1DED5F0F003C819E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0810;
+				LastUpgradeCheck = 0810;
+				ORGANIZATIONNAME = "Simen Gangstad";
+				TargetAttributes = {
+					ADF183961DED5F10003C819E = {
+						CreatedOnToolsVersion = 8.1;
+						DevelopmentTeam = YT53AFQ724;
+						LastSwiftMigration = 0810;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = ADF183921DED5F10003C819E /* Build configuration list for PBXProject "Pollster" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = ADF1838E1DED5F0F003C819E;
+			productRefGroup = ADF183981DED5F10003C819E /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				ADF183961DED5F10003C819E /* Pollster */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		ADF183951DED5F10003C819E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ADF183A51DED5F10003C819E /* LaunchScreen.storyboard in Resources */,
+				ADF183A21DED5F10003C819E /* Assets.xcassets in Resources */,
+				ADF183A01DED5F10003C819E /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		ADF183931DED5F10003C819E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ADF183B41DED5FBE003C819E /* TextTableViewController.swift in Sources */,
+				ADF183B61DED60A8003C819E /* CloudQandATableViewController.swift in Sources */,
+				ADF183B11DED5FBE003C819E /* CloudKitExtensions.swift in Sources */,
+				ADF1839B1DED5F10003C819E /* AppDelegate.swift in Sources */,
+				ADF183B31DED5FBE003C819E /* QandAAccessoryTableViewController.swift in Sources */,
+				ADF183B81DED6B94003C819E /* AllQandAsTableViewController.swift in Sources */,
+				ADF183B21DED5FBE003C819E /* QandATableViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		ADF1839E1DED5F10003C819E /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				ADF1839F1DED5F10003C819E /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		ADF183A31DED5F10003C819E /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				ADF183A41DED5F10003C819E /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		ADF183A71DED5F10003C819E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		ADF183A81DED5F10003C819E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		ADF183AA1DED5F10003C819E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = YT53AFQ724;
+				INFOPLIST_FILE = Pollster/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = io.github.simengangstad.Pollster;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		ADF183AB1DED5F10003C819E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = YT53AFQ724;
+				INFOPLIST_FILE = Pollster/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = io.github.simengangstad.Pollster;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		ADF183921DED5F10003C819E /* Build configuration list for PBXProject "Pollster" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				ADF183A71DED5F10003C819E /* Debug */,
+				ADF183A81DED5F10003C819E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		ADF183A91DED5F10003C819E /* Build configuration list for PBXNativeTarget "Pollster" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				ADF183AA1DED5F10003C819E /* Debug */,
+				ADF183AB1DED5F10003C819E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = ADF1838F1DED5F0F003C819E /* Project object */;
+}
