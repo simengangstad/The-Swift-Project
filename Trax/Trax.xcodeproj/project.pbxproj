@@ -14,6 +14,8 @@
 		AD3D92F51DEF71CD003393D5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AD3D92F31DEF71CD003393D5 /* LaunchScreen.storyboard */; };
 		ADB576EC1DEF7BF000366461 /* GPX.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADB576EB1DEF7BF000366461 /* GPX.swift */; };
 		ADB576EE1DEF7F4200366461 /* MKGPX.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADB576ED1DEF7F4200366461 /* MKGPX.swift */; };
+		ADBC42DF1DF0B9820022D738 /* ImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADBC42DE1DF0B9820022D738 /* ImageViewController.swift */; };
+		ADBC42E11DF0BEB40022D738 /* EditWaypointViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADBC42E01DF0BEB40022D738 /* EditWaypointViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +28,8 @@
 		AD3D92F61DEF71CD003393D5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		ADB576EB1DEF7BF000366461 /* GPX.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPX.swift; sourceTree = "<group>"; };
 		ADB576ED1DEF7F4200366461 /* MKGPX.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKGPX.swift; sourceTree = "<group>"; };
+		ADBC42DE1DF0B9820022D738 /* ImageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageViewController.swift; sourceTree = "<group>"; };
+		ADBC42E01DF0BEB40022D738 /* EditWaypointViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditWaypointViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,8 +65,10 @@
 				AD3D92FC1DEF71D7003393D5 /* Supporting Files */,
 				AD3D92EC1DEF71CD003393D5 /* GPXViewController.swift */,
 				ADB576ED1DEF7F4200366461 /* MKGPX.swift */,
+				ADBC42DE1DF0B9820022D738 /* ImageViewController.swift */,
 				ADB576EB1DEF7BF000366461 /* GPX.swift */,
 				AD3D92EE1DEF71CD003393D5 /* Main.storyboard */,
+				ADBC42E01DF0BEB40022D738 /* EditWaypointViewController.swift */,
 			);
 			path = Trax;
 			sourceTree = "<group>";
@@ -154,6 +160,8 @@
 			files = (
 				AD3D92ED1DEF71CD003393D5 /* GPXViewController.swift in Sources */,
 				ADB576EE1DEF7F4200366461 /* MKGPX.swift in Sources */,
+				ADBC42E11DF0BEB40022D738 /* EditWaypointViewController.swift in Sources */,
+				ADBC42DF1DF0B9820022D738 /* ImageViewController.swift in Sources */,
 				AD3D92EB1DEF71CD003393D5 /* AppDelegate.swift in Sources */,
 				ADB576EC1DEF7BF000366461 /* GPX.swift in Sources */,
 			);
@@ -282,6 +290,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = io.github.simengangstad.Trax;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -295,6 +304,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = io.github.simengangstad.Trax;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
